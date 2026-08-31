@@ -44,13 +44,9 @@ router.get("/leads/:id", validateAdmin, async (req, res) => {
 
 router.patch("/leads/:id", validateAdmin, async (req, res) => {
   try {
-    const requestQuery = {
-      id: req.params.id,
-      ...req.body,
-    };
     res
       .status(RESPONSE_CODE.OK)
-      .send(formatResponse(null, await update(requestQuery)));
+      .send(formatResponse(null, await update(req.params.id, req.body)));
   } catch (error) {
     const statusCode = Number.isInteger(error?.code) ? error.code : 500;
     res.status(statusCode).send(failure(error));
